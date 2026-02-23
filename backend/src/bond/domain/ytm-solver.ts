@@ -31,7 +31,7 @@ function bondPVDerivative(r: number, C: number, F: number, n: number): number {
   }
   const factor = Math.pow(1 + r, -n);
   const dAnnuity =
-    C * ((-n * Math.pow(1 + r, -n - 1) * r - (1 - factor)) / (r * r));
+    C * ((n * Math.pow(1 + r, -n - 1) * r - (1 - factor)) / (r * r));
   const dPar = -n * F * Math.pow(1 + r, -n - 1);
   return dAnnuity + dPar;
 }

@@ -33,7 +33,7 @@ function determinePriceStatus(
   marketPrice: number,
   faceValue: number,
 ): 'premium' | 'discount' | 'par' {
-  const epsilon = 0.001;
+  const epsilon = Math.max(0.001, faceValue * 1e-4);
   if (Math.abs(marketPrice - faceValue) < epsilon) return 'par';
   return marketPrice > faceValue ? 'premium' : 'discount';
 }

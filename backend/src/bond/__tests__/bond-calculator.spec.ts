@@ -66,6 +66,26 @@ describe('Bond Calculator', () => {
       });
       expect(result.inputs.periods).toBe(3);
     });
+
+    it('should classify par with relative epsilon for large face value', () => {
+      const result = calculateBondMetrics({
+        ...baseRequest,
+        faceValue: 100000,
+        marketPrice: 100005,
+        annualCouponRatePct: 5,
+      });
+      expect(result.outputs.priceStatus).toBe('par');
+    });
+
+    it('should detect premium even for tiny difference on small face value', () => {
+      const result = calculateBondMetrics({
+        ...baseRequest,
+        faceValue: 1,
+        marketPrice: 1.05,
+        annualCouponRatePct: 5,
+      });
+      expect(result.outputs.priceStatus).toBe('premium');
+    });
   });
 
   describe('YTM Solver', () => {
@@ -128,6 +148,63 @@ describe('Bond Calculator', () => {
         frequencyPerYear: 2,
       });
       expect(ytm).toBeCloseTo(0.05, 3);
+    });
+
+    it('known discount bond YTM matches to high precision', () => {
+      // 8% coupon, $900 price, 10-year annual → YTM ≈ 9.6035%
+      const ytm = solveYtm({
+        faceValue: 1000,
+        couponPerPeriod: 80,
+        marketPrice: 900,
+        periods: 10,
+        frequencyPerYear: 1,
+      });
+      expect(ytm).toBeCloseTo(0.096035, 4);
+    });
+
+    it('known premium bond YTM matches to high precision', () => {
+      // 8% coupon, $1100 price, 10-year annual → YTM ≈ 6.6022%
+      const ytm = solveYtm({
+        faceValue: 1000,
+        couponPerPeriod: 80,
+        marketPrice: 1100,
+        periods: 10,
+        frequencyPerYear: 1,
+      });
+      expect(ytm).toBeCloseTo(0.066022, 4);
+    });
+
+    it('derivative correctness: PV at solved YTM equals market price', () => {
+      const F = 1000;
+      const C = 40;
+      const P = 950;
+      const n = 20;
+      const m = 2;
+
+      const ytm = solveYtm({
+        faceValue: F,
+        couponPerPeriod: C,
+        marketPrice: P,
+        periods: n,
+        frequencyPerYear: m,
+      });
+
+      const r = ytm / m;
+      const factor = Math.pow(1 + r, -n);
+      const pv = C * (1 - factor) / r + F * factor;
+      expect(pv).toBeCloseTo(P, 6);
+    });
+
+    it('high-yield discount bond converges', () => {
+      const ytm = solveYtm({
+        faceValue: 1000,
+        couponPerPeriod: 10,
+        marketPrice: 500,
+        periods: 5,
+        frequencyPerYear: 1,
+      });
+      expect(ytm).toBeGreaterThan(0.15);
+      expect(ytm).toBeLessThan(1.0);
     });
   });
 
