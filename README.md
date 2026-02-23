@@ -24,31 +24,38 @@ frontend/   — React SPA (port 3001)
 - Node.js >= 20
 - npm
 
-### Backend
+### Quick Start (Both Services)
 
+```bash
+npm run install:all   # Install all dependencies
+npm start             # Start backend + frontend together
+```
+
+- Backend runs at `http://localhost:3000`
+- Frontend runs at `http://localhost:3001`
+
+### Run Individually
+
+**Backend:**
 ```bash
 cd backend
 npm install
 npm run start:dev
 ```
 
-The API will be available at `http://localhost:3000`.
-
-### Frontend
-
+**Frontend:**
 ```bash
 cd frontend
 npm install
 npm start
 ```
 
-The app will open at `http://localhost:3001`.
-
 ### Running Tests
 
 ```bash
-cd backend
 npm test
+# or
+cd backend && npm test
 ```
 
 ## API
