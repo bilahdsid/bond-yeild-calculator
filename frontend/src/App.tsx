@@ -58,11 +58,18 @@ function App() {
         <section className="assumptions">
           <h3>Assumptions</h3>
           <ul>
-            <li>Settlement date is today; payment dates are derived by adding period lengths from today.</li>
-            <li>Plain vanilla bullet bond: principal remains outstanding at face value until maturity.</li>
+            <li>
+              Settlement date is today; payment dates are derived by adding period lengths from
+              today.
+            </li>
+            <li>
+              Plain vanilla bullet bond: principal remains outstanding at face value until maturity.
+            </li>
             <li>Total interest = sum of all coupon payments (no reinvestment).</li>
             <li>YTM is a nominal annual rate compounded at the coupon frequency.</li>
-            <li>Fractional years use <code>ceil(yearsToMaturity * frequency)</code> for period count.</li>
+            <li>
+              Fractional years use <code>ceil(yearsToMaturity * frequency)</code> for period count.
+            </li>
           </ul>
         </section>
       </main>

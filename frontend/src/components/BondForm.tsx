@@ -99,9 +99,7 @@ export const BondForm: React.FC<Props> = ({ onSubmit, loading }) => {
             value={form.yearsToMaturity || ''}
             onChange={(e) => handleChange('yearsToMaturity', e.target.value)}
           />
-          {errors.yearsToMaturity && (
-            <span className="error">{errors.yearsToMaturity}</span>
-          )}
+          {errors.yearsToMaturity && <span className="error">{errors.yearsToMaturity}</span>}
         </div>
 
         <div className="form-group">
