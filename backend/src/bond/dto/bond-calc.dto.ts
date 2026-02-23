@@ -1,9 +1,4 @@
-import {
-  IsNumber,
-  IsPositive,
-  Min,
-  IsIn,
-} from 'class-validator';
+import { IsNumber, IsPositive, Min, IsIn } from 'class-validator';
 
 export class BondCalcDto {
   @IsNumber()

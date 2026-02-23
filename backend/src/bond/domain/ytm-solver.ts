@@ -19,25 +19,30 @@ function bondPV(r: number, C: number, F: number, n: number): number {
     return C * n + F;
   }
   const factor = Math.pow(1 + r, -n);
-  const annuityPV = C * (1 - factor) / r;
+  const annuityPV = (C * (1 - factor)) / r;
   const parPV = F * factor;
   return annuityPV + parPV;
 }
 
 function bondPVDerivative(r: number, C: number, F: number, n: number): number {
   if (Math.abs(r) < 1e-12) {
-    const sum = -C * n * (n + 1) / 2 - F * n;
+    const sum = (-C * n * (n + 1)) / 2 - F * n;
     return sum;
   }
   const factor = Math.pow(1 + r, -n);
-  const dAnnuity =
-    C * ((n * Math.pow(1 + r, -n - 1) * r - (1 - factor)) / (r * r));
+  const dAnnuity = C * ((n * Math.pow(1 + r, -n - 1) * r - (1 - factor)) / (r * r));
   const dPar = -n * F * Math.pow(1 + r, -n - 1);
   return dAnnuity + dPar;
 }
 
 export function solveYtm(params: YtmSolverParams): number {
-  const { faceValue: F, couponPerPeriod: C, marketPrice: P, periods: n, frequencyPerYear: m } = params;
+  const {
+    faceValue: F,
+    couponPerPeriod: C,
+    marketPrice: P,
+    periods: n,
+    frequencyPerYear: m,
+  } = params;
 
   if (n <= 0) return 0;
 
@@ -58,11 +63,14 @@ export function solveYtm(params: YtmSolverParams): number {
   for (let i = 0; i < 50; i++) {
     if (f(upper) < 0) break;
     upper *= 2;
-    if (upper > 100) { upper = 100; break; }
+    if (upper > 100) {
+      upper = 100;
+      break;
+    }
   }
 
   // Newton-Raphson with bisection fallback
-  let r = (C / P); // initial guess: current yield per period approximation
+  let r = C / P; // initial guess: current yield per period approximation
   if (r <= lower) r = (lower + upper) / 2;
   if (r >= upper) r = (lower + upper) / 2;
 

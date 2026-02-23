@@ -38,16 +38,8 @@ function determinePriceStatus(
   return marketPrice > faceValue ? 'premium' : 'discount';
 }
 
-export function calculateBondMetrics(
-  request: BondCalculateRequest,
-): BondCalculateResponse {
-  const {
-    faceValue,
-    annualCouponRatePct,
-    marketPrice,
-    yearsToMaturity,
-    couponFrequency,
-  } = request;
+export function calculateBondMetrics(request: BondCalculateRequest): BondCalculateResponse {
+  const { faceValue, annualCouponRatePct, marketPrice, yearsToMaturity, couponFrequency } = request;
 
   const couponRate = annualCouponRatePct / 100;
   const m: 1 | 2 = couponFrequency === 'semi-annual' ? 2 : 1;

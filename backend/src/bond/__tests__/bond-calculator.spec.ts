@@ -191,7 +191,7 @@ describe('Bond Calculator', () => {
 
       const r = ytm / m;
       const factor = Math.pow(1 + r, -n);
-      const pv = C * (1 - factor) / r + F * factor;
+      const pv = (C * (1 - factor)) / r + F * factor;
       expect(pv).toBeCloseTo(P, 6);
     });
 
